@@ -1,0 +1,35 @@
+<?php
+require_once('Connections/SQL.php');
+require_once('config.php');
+require_once('include/view.php');
+
+$view = new View('view/new_theme.html','include/nav.php',$center['site_name'],'Member Login');
+
+if(isset($_SESSION['Center_Username'],$_SESSION['Center_UserGroup'])){
+	header('Location: member.php');
+}
+
+if (isset($_POST['username'])) {
+	if(sc_login($_POST['username'],$_POST['password'])){
+		header("Location: member.php?login");
+	}else{
+		header("Location: index.php?login");
+	}
+	die();
+}
+else if(isset($_GET['logout'])) {
+	sc_loginout();
+}
+
+switch(true){
+	case isset($_GET['reg']):
+?>
+    <h2 class="page-header">Member Login</h2>
+    <table width="416" height="154" border="1">
+      <tr>
+        <td width="200"><h2 class="page-header">Already a member </h2></td>
+        <td width="200"><h2 class="page-header">Not a member</h2></td>
+      </tr>
+    </table>
+    <p>&nbsp;</p>
+    <form class="form-horizontal" action="index.php" method="post">
